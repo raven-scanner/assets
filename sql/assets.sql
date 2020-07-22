@@ -1,3 +1,31 @@
+CREATE TABLE IF NOT EXISTS namespaces (
+    etag VARCHAR(512),
+    id VARCHAR PRIMARY KEY,
+    created TIMESTAMP,
+    updated TIMESTAMP,
+
+    name VARCHAR(512),
+
+    CONSTRAINT namespace_id UNIQUE (name)
+);
+
+CREATE TABLE IF NOT EXISTS namespaces_settings (
+    etag VARCHAR(512),
+    id VARCHAR PRIMARY KEY,
+    created TIMESTAMP,
+    updated TIMESTAMP,
+
+    namespace VARCHAR REFERENCES namespaces (id),
+
+    key VARCHAR(512),
+    value VARCHAR(512),
+
+    CONSTRAINT setting_in_namespace UNIQUE (namespace, key)
+);
+
+ALTER TABLE namespaces SET SCHEMA private;
+ALTER TABLE namespaces_settings SET SCHEMA private;
+
 CREATE TABLE IF NOT EXISTS assets (
         etag VARCHAR(512),
         id VARCHAR PRIMARY KEY,
@@ -15,7 +43,6 @@ CREATE TABLE IF NOT EXISTS assets (
 
         CONSTRAINT asset_in_namespace UNIQUE (namespace, type, value)
 );
-
 
 CREATE TABLE IF NOT EXISTS assets_metadata (
     etag VARCHAR(512),
