@@ -12,6 +12,7 @@ func SyncNamespaces(DatabaseSource string, KafkaSource string) {
 	index := namespaces.CreateNamespacesIndex(DatabaseSource, "private")
 
 	models.SyncIndex(
+		"raven.public",
 		kafka.ReaderConfig{
 			Brokers: []string{KafkaSource},
 			Partition: 0,
